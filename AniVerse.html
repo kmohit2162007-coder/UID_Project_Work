@@ -1,0 +1,1592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:'Poppins',sans-serif;
+    }
+
+    body{
+      background:#0f0f0f;
+      color:white;
+    }
+
+    /* NAVBAR */
+
+    .navbar{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      padding:18px 50px;
+      background:#111;
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .logo{
+      color:#3b82f6;
+      font-size:28px;
+      font-weight:700;
+    }
+
+    .nav-links{
+      display:flex;
+      gap:30px;
+    }
+
+    .nav-links a{
+      color:white;
+      text-decoration:none;
+      transition:0.3s;
+      font-weight:500;
+    }
+
+    .nav-links a:hover{
+      color:#3b82f6;
+    }
+
+    .nav-right{
+      display:flex;
+      align-items:center;
+      gap:18px;
+    }
+
+    .profile-box{
+      position:relative;
+      cursor:pointer;
+    }
+
+    .profile-avatar{
+      width:45px;
+      height:45px;
+      border-radius:50%;
+      border:2px solid #3b82f6;
+      object-fit:cover;
+      transition:0.3s;
+    }
+
+    .profile-avatar:hover{
+      transform:scale(1.08);
+      box-shadow:0 0 15px rgba(59,130,246,0.5);
+    }
+
+    .profile-dropdown{
+      position:absolute;
+      top:60px;
+      right:0;
+      background:#181818;
+      width:220px;
+      border-radius:12px;
+      overflow:hidden;
+      display:none;
+      box-shadow:0 10px 25px rgba(0,0,0,0.5);
+      z-index:1000;
+    }
+
+    .profile-dropdown.active{
+      display:block;
+    }
+
+    .profile-dropdown a{
+      display:block;
+      padding:14px 18px;
+      color:white;
+      text-decoration:none;
+      transition:0.3s;
+      border-bottom:1px solid #252525;
+    }
+
+    .profile-dropdown a:hover{
+      background:#3b82f6;
+    }
+
+    .search-box input{
+      background:#1d1d1d;
+      border:none;
+      outline:none;
+      color:white;
+      padding:10px 15px;
+      border-radius:8px;
+      width:220px;
+    }
+
+    /* HERO SECTION */
+
+    .hero{
+      position:relative;
+      height:85vh;
+      background:url('https://wallpapercave.com/wp/wp2162773.jpg') center/cover;
+      display:flex;
+      align-items:flex-end;
+      padding:60px;
+      overflow:hidden;
+    }
+
+    .hero::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.3));
+    }
+
+    .hero-slider{
+      width:100%;
+      height:100%;
+      position:relative;
+    }
+
+    .hero-slide{
+      position:absolute;
+      inset:0;
+      background-size:cover;
+      background-position:center;
+      display:flex;
+      align-items:flex-end;
+      padding:60px;
+      opacity:0;
+      transition:1s ease;
+    }
+
+    .hero-slide::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,0.95), rgba(0,0,0,0.3));
+    }
+
+    .hero-slide.active{
+      opacity:1;
+      z-index:1;
+    }
+
+    .hero-nav-btn{
+      position:absolute;
+      top:50%;
+      transform:translateY(-50%);
+      width:55px;
+      height:55px;
+      border:none;
+      border-radius:50%;
+      background:rgba(15,15,15,0.75);
+      color:white;
+      font-size:28px;
+      cursor:pointer;
+      z-index:20;
+      transition:0.3s;
+    }
+
+    .hero-nav-btn:hover{
+      background:#3b82f6;
+    }
+
+    .hero-prev{
+      left:25px;
+    }
+
+    .hero-next{
+      right:25px;
+    }
+
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width:600px;
+    }
+
+    .hero h1{
+      font-size:60px;
+      margin-bottom:15px;
+    }
+
+    .hero p{
+      color:#d0d0d0;
+      line-height:1.7;
+      margin-bottom:25px;
+    }
+
+    .hero-buttons{
+      display:flex;
+      gap:15px;
+    }
+
+    .watch-btn,
+    .info-btn{
+      padding:12px 28px;
+      border:none;
+      border-radius:8px;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .watch-btn{
+      background:#3b82f6;
+      color:white;
+    }
+
+    .watch-btn:hover{
+      transform:translateY(-3px);
+      box-shadow:0 8px 20px rgba(59,130,246,0.4);
+    }
+
+    .info-btn{
+      background:#2b2b2b;
+      color:white;
+    }
+
+    /* SECTION */
+
+    section{
+      padding:50px;
+    }
+
+    .section-title{
+      font-size:30px;
+      margin-bottom:25px;
+    }
+
+    /* CARD GRID */
+
+    .scroll-wrapper{
+      position:relative;
+    }
+
+    .scroll-btn{
+      position:absolute;
+      top:40%;
+      transform:translateY(-50%);
+      width:45px;
+      height:45px;
+      border:none;
+      border-radius:50%;
+      background:rgba(20,20,20,0.9);
+      color:white;
+      font-size:22px;
+      cursor:pointer;
+      z-index:10;
+      transition:0.3s;
+    }
+
+    .scroll-btn:hover{
+      background:#3b82f6;
+    }
+
+    .scroll-left{
+      left:-15px;
+    }
+
+    .scroll-right{
+      right:-15px;
+    }
+
+    .anime-scroll{
+      display:flex;
+      gap:25px;
+      overflow:hidden;
+      scroll-behavior:smooth;
+      padding-bottom:10px;
+    }
+
+    .anime-scroll .card{
+      min-width:230px;
+      flex-shrink:0;
+    }
+
+    .anime-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+      gap:25px;
+    }
+
+    /* CARDS */
+
+    .card{
+      background:#181818;
+      border-radius:14px;
+      overflow:hidden;
+      transition:0.35s;
+      cursor:pointer;
+      position:relative;
+    }
+
+    .card:hover{
+      transform:translateY(-10px);
+      box-shadow:0 15px 30px rgba(59,130,246,0.25);
+    }
+
+    .card img{
+      width:100%;
+      height:320px;
+      object-fit:cover;
+      transition:0.4s;
+    }
+
+    .card:hover img{
+      transform:scale(1.05);
+    }
+
+    .card-overlay{
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to top, rgba(0,0,0,0.95), transparent);
+      display:flex;
+      align-items:flex-end;
+      opacity:0;
+      transition:0.3s;
+      padding:20px;
+    }
+
+    .card:hover .card-overlay{
+      opacity:1;
+    }
+
+    .overlay-buttons{
+      display:flex;
+      gap:10px;
+      width:100%;
+    }
+
+    .overlay-buttons button{
+      flex:1;
+      border:none;
+      padding:10px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+      transition:0.3s;
+    }
+
+    .play-btn{
+      background:#3b82f6;
+      color:white;
+    }
+
+    .details-btn{
+      background:#2b2b2b;
+      color:white;
+    }
+
+    .watchlist-btn{
+      background:#111827;
+      color:#93c5fd;
+    }
+
+    .settings-modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.8);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:3000;
+    }
+
+    .settings-box{
+      background:#181818;
+      width:400px;
+      border-radius:18px;
+      padding:30px;
+    }
+
+    .settings-box h2{
+      margin-bottom:20px;
+    }
+
+    .setting-option{
+      background:#242424;
+      padding:15px;
+      border-radius:10px;
+      margin-bottom:15px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+    }
+
+    .setting-option button{
+      background:#3b82f6;
+      border:none;
+      color:white;
+      padding:8px 14px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+    .watchlist-page{
+      position:fixed;
+      inset:0;
+      background:#0f0f0f;
+      z-index:4000;
+      padding:40px;
+      overflow-y:auto;
+      display:none;
+    }
+
+    .watchlist-header{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      margin-bottom:35px;
+    }
+
+    .watchlist-header h1{
+      font-size:42px;
+    }
+
+    .close-watchlist{
+      background:#3b82f6;
+      color:white;
+      border:none;
+      padding:12px 22px;
+      border-radius:10px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    .watchlist-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+      gap:25px;
+    }
+
+    .watchlist-item{
+      background:#181818;
+      border-radius:16px;
+      overflow:hidden;
+      transition:0.3s;
+    }
+
+    .watchlist-item img{
+      width:100%;
+      height:320px;
+      object-fit:cover;
+    }
+
+    .watchlist-item-content{
+      padding:18px;
+    }
+
+    .watchlist-item h3{
+      margin-bottom:8px;
+    }
+
+    .watchlist-item p{
+      color:#9ca3af;
+      font-size:14px;
+    }
+
+    .anime-modal{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,0.8);
+      display:none;
+      justify-content:center;
+      align-items:center;
+      z-index:2000;
+      padding:20px;
+    }
+
+    .modal-content{
+      background:#181818;
+      max-width:700px;
+      width:100%;
+      border-radius:18px;
+      overflow:hidden;
+      animation:popup 0.3s ease;
+    }
+
+    .modal-content img{
+      width:100%;
+      height:350px;
+      object-fit:cover;
+    }
+
+    .modal-info{
+      padding:25px;
+    }
+
+    .modal-info h2{
+      margin-bottom:10px;
+    }
+
+    .modal-info p{
+      color:#cfcfcf;
+      line-height:1.7;
+      margin-bottom:20px;
+    }
+
+    .close-modal{
+      background:#3b82f6;
+      color:white;
+      border:none;
+      padding:10px 18px;
+      border-radius:8px;
+      cursor:pointer;
+      font-weight:600;
+    }
+
+    @keyframes popup{
+      from{
+        transform:scale(0.8);
+        opacity:0;
+      }
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+
+    .card-content{
+      padding:15px;
+    }
+
+    .anime-title{
+      font-size:18px;
+      font-weight:600;
+      margin-bottom:8px;
+    }
+
+    .anime-info{
+      color:#aaaaaa;
+      font-size:14px;
+    }
+
+    .badge{
+      position:absolute;
+      top:12px;
+      left:12px;
+      background:#3b82f6;
+      color:white;
+      padding:5px 10px;
+      border-radius:6px;
+      font-size:12px;
+      font-weight:600;
+    }
+
+    /* FOOTER */
+
+    footer{
+      background:#111;
+      padding:30px;
+      text-align:center;
+      color:#999;
+      margin-top:40px;
+    }
+
+    /* RESPONSIVE */
+
+    @media(max-width:900px){
+
+      .navbar{
+        flex-direction:column;
+        gap:20px;
+        padding:20px;
+      }
+
+      .hero{
+        height:60vh;
+        padding:30px;
+      }
+
+      .hero h1{
+        font-size:40px;
+      }
+
+      section{
+        padding:30px 20px;
+      }
+
+      .anime-grid{
+        grid-template-columns:repeat(2,1fr);
+      }
+    }
+
+    @media(max-width:500px){
+
+      .anime-grid{
+        grid-template-columns:1fr;
+      }
+
+      .hero h1{
+        font-size:32px;
+      }
+
+      .hero-buttons{
+        flex-direction:column;
+      }
+
+      .search-box input{
+        width:100%;
+      }
+    }
+
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+
+  <nav class="navbar">
+    <div class="logo">Aniverse</div>
+
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#popular">Popular</a>
+      <a href="#new">New</a>
+      <a href="#movies">Movies</a>
+    </div>
+
+    <div class="nav-right">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Search anime...">
+      </div>
+
+      <div class="profile-box">
+        <img class="profile-avatar" src="https://i.pravatar.cc/100?img=12">
+
+        <div class="profile-dropdown" id="profileDropdown">
+          <a href="#">My Profile</a>
+          <a href="#">Watchlist</a>
+          <a href="#">Settings</a>
+          <a href="#">Logout</a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+
+  <section class="hero" id="home">
+
+    <div class="hero-slider">
+
+      <button class="hero-nav-btn hero-prev"><</button>
+      <button class="hero-nav-btn hero-next">></button>
+
+      <div class="hero-slide active" style="background-image:url(https://wallpaperaccess.com/full/36626.jpg)">
+        <div class="hero-content">
+          <h1>Attack On Titan</h1>
+
+          <p>
+            Humanity fights for survival against gigantic Titans in this dark,
+            action-packed anime world filled with mystery and war.
+          </p>
+
+          <div class="hero-buttons">
+            <button class="watch-btn">Watch Now</button>
+            <button class="info-btn">More Info</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-slide" style="background-image:url(https://wallpaperaccess.com/full/3231246.png)">
+        <div class="hero-content">
+          <h1>Solo Leveling</h1>
+
+          <p>
+            The weakest hunter gains a mysterious system that allows him to level up beyond all limits.
+          </p>
+
+          <div class="hero-buttons">
+            <button class="watch-btn">Watch Now</button>
+            <button class="info-btn">More Info</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-slide" style="background-image:url(https://wallpaperaccess.com/full/1099445.png)">
+        <div class="hero-content">
+          <h1>Demon Slayer</h1>
+
+          <p>
+            Tanjiro battles terrifying demons while searching for a cure for his sister.
+          </p>
+
+          <div class="hero-buttons">
+            <button class="watch-btn">Watch Now</button>
+            <button class="info-btn">More Info</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- TRENDING SECTION -->
+
+  <section id="new">
+    <h2 class="section-title">Trending Now</h2>
+
+    <div class="scroll-wrapper">
+      <button class="scroll-btn scroll-left">❮</button>
+      <button class="scroll-btn scroll-right">❯</button>
+
+      <div class="anime-scroll">
+
+      <div class="card">
+        <span class="badge">HOT</span>
+        <img src="https://wallpaperaccess.com/full/5151426.png">
+
+        <div class="card-content">
+          <div class="anime-title">Solo Leveling</div>
+          <div class="anime-info">Season 1 • 12 Episodes</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.myanimelist.net/images/anime/1171/109222.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Jujutsu Kaisen</div>
+          <div class="anime-info">Season 2 • 24 Episodes</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.myanimelist.net/images/anime/1286/99889.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Demon Slayer</div>
+          <div class="anime-info">Season 4 • Ongoing</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">NEW</span>
+        <img src="https://cdn.myanimelist.net/images/anime/1806/126216.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Chainsaw Man</div>
+          <div class="anime-info">Season 1 • 12 Episodes</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS-ORszEjnaEMWG2P0Q7_kH_9vUUttNBZOvpA&s">
+
+        <div class="card-content">
+          <div class="anime-title">Blue Lock</div>
+          <div class="anime-info">Sports • 24 Episodes</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQgEcJ9yOmawdvD9YgB6k3Huuu2uc-ARqAAnw&s">
+
+        <div class="card-content">
+          <div class="anime-title">Spy x Family</div>
+          <div class="anime-info">Comedy • Action</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdSok2zQfD8SW7-rXCoJo2h6FSKtxI0HfWYw&s">
+        <div class="card-content">
+          <div class="anime-title">Hell's Paradise</div>
+          <div class="anime-info">Dark • Adventure</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTUozrugNv5GjcJQ11SnyfknJPtg5SEneAxzw&s">
+        <div class="card-content">
+          <div class="anime-title">Vinland Saga</div>
+          <div class="anime-info">Historical • Action</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO7G1Ay6Hpd_9tSdCXKVs96VbgD45HqWfwMw&s">
+        <div class="card-content">
+          <div class="anime-title">Tokyo Ghoul</div>
+          <div class="anime-info">Horror • Action</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- POPULAR SECTION -->
+
+  <section id="popular">
+    <h2 class="section-title">Popular Anime</h2>
+
+    <div class="scroll-wrapper">
+      <button class="scroll-btn scroll-left"><</button>
+      <button class="scroll-btn scroll-right">></button>
+
+      <div class="anime-scroll">
+
+      <div class="card">
+        <img src="https://cdn.myanimelist.net/images/anime/13/17405.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Naruto</div>
+          <div class="anime-info">720 Episodes</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.myanimelist.net/images/anime/6/73245.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">One Piece</div>
+          <div class="anime-info">1100\+ Episodes</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ28QRunnXl0ISfgUAtKq3H8xeVh07ia-Ddyw&s">
+
+        <div class="card-content">
+          <div class="anime-title">Bleach TYBW</div>
+          <div class="anime-info">Part 3</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://wallpaperaccess.com/full/7238719.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Tokyo Revengers</div>
+          <div class="anime-info">Season 3</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.myanimelist.net/images/anime/1208/94745.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Full Metal Alchemist</div>
+          <div class="anime-info">Final Season</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://cdn.myanimelist.net/images/anime/10/47347.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Attack On Titan</div>
+          <div class="anime-info">Classic • Action</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSsIuIDqMfd3UE1fSB_4sa5UdZ151GXGyuPzQ&s">
+        <div class="card-content">
+          <div class="anime-title">Death Note</div>
+          <div class="anime-info">Thriller • Mystery</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSLYJnTqt-XRIgGkHlAJ4qPErX2ywl0DT51Xg&s">
+        <div class="card-content">
+          <div class="anime-title">Dr Stone</div>
+          <div class="anime-info">Science • Adventure</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://wallpaperaccess.com/full/3311936.jpg">
+        <div class="card-content">
+          <div class="anime-title">Haikyuu!!</div>
+          <div class="anime-info">Sports • Volleyball</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLUiPSqkQAz13V1i2fWxckuWmqzZmT-PvNUA&s">
+        <div class="card-content">
+          <div class="anime-title">Hunter x Hunter</div>
+          <div class="anime-info">Adventure • Fantasy</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- MOVIES SECTION -->
+
+  <section id="movies">
+    <h2 class="section-title">Anime Movies</h2>
+
+    <div class="scroll-wrapper">
+      <button class="scroll-btn scroll-left">❮</button>
+      <button class="scroll-btn scroll-right">❯</button>
+
+      <div class="anime-scroll">
+
+      <div class="card">
+        <span class="badge">MOVIE</span>
+        <img src="https://cdn.myanimelist.net/images/anime/5/87048.jpg">
+
+        <div class="card-content">
+          <div class="anime-title">Your Name</div>
+          <div class="anime-info">Romance • Fantasy</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRKcpdce0X-3F5e6ozFydJlGtHVtey9IWE1LQ&s">
+
+        <div class="card-content">
+          <div class="anime-title">Suzume</div>
+          <div class="anime-info">Adventure • Drama</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <span class="badge">TOP</span>
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTlTFaJroan9gSMB0-IZV8S9BT6XpEpDE9EbA&s">
+
+        <div class="card-content">
+          <div class="anime-title">Weathering With You</div>
+          <div class="anime-info">Fantasy • Romance</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT8QbL5rf3-2ciJDa_8-2jPGSeYdkAh-CbEIA&s">
+
+        <div class="card-content">
+          <div class="anime-title">A Silent Voice</div>
+          <div class="anime-info">Drama • Emotional</div>
+        </div>
+
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+    
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXTriY518jWtGoxfpNw9GKhjr3vbpYEFq4ng&s">
+        <div class="card-content">
+          <div class="anime-title">Spirited Away</div>
+          <div class="anime-info">Fantasy • Adventure</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSZ8bj68DuELkbf5CN4eT1vjSyiLxYaQW747A&s">
+        <div class="card-content">
+          <div class="anime-title">Princess Mononoke</div>
+          <div class="anime-info">Epic • Fantasy</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <img src="https://wallpaperaccess.com/full/10190256.jpg">
+        <div class="card-content">
+          <div class="anime-title">Howl's Moving Castle</div>
+          <div class="anime-info">Magic • Adventure</div>
+        </div>
+        <div class="card-overlay">
+          <div class="overlay-buttons">
+            <button class="play-btn">Watch</button>
+            <button class="details-btn">Details</button>
+            <button class="watchlist-btn">+ List</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+
+  <footer>
+    © 2026 Aniverse • Designed by Mohit
+  </footer>
+
+  <div class="settings-modal" id="settingsModal">
+    <div class="settings-box">
+      <h2>Settings</h2>
+
+      <div class="setting-option">
+        <span>Dark Mode</span>
+        <button id="themeToggle">Toggle</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Continue Watching</span>
+        <button id="continueBtn">Enabled</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Video Quality</span>
+        <button id="qualityBtn">1080p</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Subtitles</span>
+        <button id="subtitleBtn">English</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Language</span>
+        <button id="languageBtn">Japanese</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Watch History</span>
+        <button id="historyBtn">Enabled</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Profile Privacy</span>
+        <button id="privacyBtn">Private</button>
+      </div>
+
+      <div class="setting-option">
+        <span>Notifications</span>
+        <button id="notificationBtn">On</button>
+      </div>
+
+      <button class="close-modal" id="closeSettings">Close</button>
+    </div>
+  </div>
+
+  <div class="watchlist-page" id="watchlistPage">
+
+    <div class="watchlist-header">
+      <h1>My Watchlist</h1>
+      <button class="close-watchlist" id="closeWatchlist">Close</button>
+    </div>
+
+    <div class="watchlist-grid" id="watchlistGrid"></div>
+
+  </div>
+
+  <div class="anime-modal" id="animeModal">
+
+    <div class="modal-content">
+      <img id="modalImage" src="">
+
+      <div class="modal-info">
+        <h2 id="modalTitle"></h2>
+        <p id="modalDescription"></p>
+
+        <button class="close-modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+
+    const searchInput = document.getElementById('searchInput');
+    const cards = document.querySelectorAll('.card');
+
+    searchInput.addEventListener('keyup', () => {
+
+      const searchValue = searchInput.value.toLowerCase();
+
+      cards.forEach(card => {
+
+        const animeTitle = card.querySelector('.anime-title').textContent.toLowerCase();
+
+        if(animeTitle.includes(searchValue)){
+          card.style.display = 'block';
+        }
+        else{
+          card.style.display = 'none';
+        }
+
+      });
+
+    });
+
+    const animeData = {
+
+      "Solo Leveling":"The weakest hunter gains a powerful leveling system and becomes humanity's strongest warrior.",
+      "Jujutsu Kaisen":"Yuji enters the dangerous world of curses and sorcerers after consuming Sukuna's finger.",
+      "Demon Slayer":"Tanjiro fights demons to save his sister and avenge his family.",
+      "Chainsaw Man":"Denji merges with Chainsaw Devil and joins a brutal devil hunting organization.",
+      "Naruto":"A young ninja dreams of becoming the Hokage and earning everyone's respect.",
+      "One Piece":"Luffy sails the seas searching for the legendary One Piece treasure.",
+      "Bleach TYBW":"Ichigo faces the Quincy army in the Thousand-Year Blood War.",
+      "Tokyo Revengers":"Takemichi travels through time to save his friends and change the future.",
+      "Your Name":"Two teenagers mysteriously swap bodies and form a deep connection.",
+      "Suzume":"A girl closes magical doors across Japan to stop disasters.",
+      "Weathering With You":"A runaway boy meets a girl who can control the weather.",
+      "A Silent Voice":"A touching story about bullying, forgiveness, and redemption.",
+      "Blue Lock":"Japan's best strikers compete in a ruthless football training program.",
+      "Spy x Family":"A spy creates a fake family without knowing they all hide secrets.",
+      "Attack On Titan":"Humanity struggles against gigantic Titans beyond the walls.",
+      "Hell's Paradise":"Convicts battle monsters on a mysterious island in search of immortality.",
+      "Vinland Saga":"A Viking warrior seeks revenge and discovers the meaning of true strength.",
+      "Tokyo Ghoul":"A college student becomes half-ghoul after a deadly encounter.",
+      "Death Note":"A genius student gains a notebook that can kill anyone.",
+      "Dr Stone":"Human civilization is rebuilt through science after humanity turns to stone.",
+      "Haikyuu!!":"An underdog volleyball team fights to become the best in Japan.",
+      "Hunter x Hunter":"Gon journeys to become a Hunter and find his father.",
+      "Spirited Away":"A girl enters a magical spirit world to save her parents.",
+      "Princess Mononoke":"A cursed prince becomes involved in a war between nature and humans.",
+      "Howl's Moving Castle":"A young woman is cursed and finds refuge in a magical moving castle."
+
+    };
+
+    const modal = document.getElementById('animeModal');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalImage = document.getElementById('modalImage');
+    const modalDescription = document.getElementById('modalDescription');
+    const closeModal = document.querySelector('.close-modal');
+
+    cards.forEach(card => {
+
+      card.addEventListener('click', () => {
+
+        const title = card.querySelector('.anime-title').textContent;
+        const image = card.querySelector('img').src;
+
+        modalTitle.textContent = title;
+        modalImage.src = image;
+        modalDescription.textContent = animeData[title] || 'Amazing anime available now on Aniverse.';
+
+        modal.style.display = 'flex';
+
+      });
+
+    });
+
+    closeModal.addEventListener('click', () => {
+      modal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (e) => {
+      if(e.target === modal){
+        modal.style.display = 'none';
+      }
+    });
+
+    const heroSlides = document.querySelectorAll('.hero-slide');
+
+    let currentSlide = 0;
+
+    const heroPrevBtn = document.querySelector('.hero-prev');
+    const heroNextBtn = document.querySelector('.hero-next');
+
+    function showSlide(index){
+
+      heroSlides.forEach(slide => {
+        slide.classList.remove('active');
+      });
+
+      heroSlides[index].classList.add('active');
+    }
+
+    function nextSlide(){
+
+      currentSlide = (currentSlide + 1) % heroSlides.length;
+      showSlide(currentSlide);
+
+    }
+
+    function prevSlide(){
+
+      currentSlide = (currentSlide - 1 + heroSlides.length) % heroSlides.length;
+      showSlide(currentSlide);
+
+    }
+
+    heroNextBtn.addEventListener('click', nextSlide);
+    heroPrevBtn.addEventListener('click', prevSlide);
+
+    setInterval(nextSlide, 4000);
+
+    const wrappers = document.querySelectorAll('.scroll-wrapper');
+
+    wrappers.forEach(wrapper => {
+
+      const scrollContainer = wrapper.querySelector('.anime-scroll');
+      const leftBtn = wrapper.querySelector('.scroll-left');
+      const rightBtn = wrapper.querySelector('.scroll-right');
+
+      leftBtn.addEventListener('click', () => {
+
+        scrollContainer.scrollBy({
+          left:-350,
+          behavior:'smooth'
+        });
+
+      });
+
+      rightBtn.addEventListener('click', () => {
+
+        scrollContainer.scrollBy({
+          left:350,
+          behavior:'smooth'
+        });
+
+      });
+
+    });
+
+    const watchlistButtons = document.querySelectorAll('.watchlist-btn');
+    const watchlistPage = document.getElementById('watchlistPage');
+    const watchlistGrid = document.getElementById('watchlistGrid');
+    const closeWatchlist = document.getElementById('closeWatchlist');
+
+    watchlistButtons.forEach(button => {
+
+      button.addEventListener('click', (e) => {
+
+        e.stopPropagation();
+
+        const animeCard = button.closest('.card');
+        const animeName = animeCard.querySelector('.anime-title').textContent;
+        const animeInfo = animeCard.querySelector('.anime-info').textContent;
+        const animeImage = animeCard.querySelector('img').src;
+
+        const watchCard = document.createElement('div');
+        watchCard.classList.add('watchlist-item');
+
+        watchCard.innerHTML = `
+          <img src="${animeImage}">
+
+          <div class="watchlist-item-content">
+            <h3>${animeName}</h3>
+            <p>${animeInfo}</p>
+          </div>
+        `;
+
+        watchlistGrid.appendChild(watchCard);
+
+      });
+
+    });
+
+    closeWatchlist.addEventListener('click', () => {
+      watchlistPage.style.display = 'none';
+    });
+
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettings = document.getElementById('closeSettings');
+    const themeToggle = document.getElementById('themeToggle');
+
+    document.querySelectorAll('.profile-dropdown a')[2].addEventListener('click', (e) => {
+
+      e.preventDefault();
+      settingsModal.style.display = 'flex';
+
+    });
+
+    closeSettings.addEventListener('click', () => {
+      settingsModal.style.display = 'none';
+    });
+
+    themeToggle.addEventListener('click', () => {
+
+      if(document.body.classList.contains('light-mode')){
+
+        document.body.classList.remove('light-mode');
+        document.body.style.background = '#0f0f0f';
+        document.body.style.color = 'white';
+        themeToggle.textContent = 'Dark';
+
+      }
+      else{
+
+        document.body.classList.add('light-mode');
+        document.body.style.background = '#f3f4f6';
+        document.body.style.color = 'black';
+        themeToggle.textContent = 'Light';
+
+      }
+
+    });
+
+    const continueBtn = document.getElementById('continueBtn');
+    const qualityBtn = document.getElementById('qualityBtn');
+    const subtitleBtn = document.getElementById('subtitleBtn');
+    const languageBtn = document.getElementById('languageBtn');
+    const historyBtn = document.getElementById('historyBtn');
+    const privacyBtn = document.getElementById('privacyBtn');
+    const notificationBtn = document.getElementById('notificationBtn');
+
+    continueBtn.addEventListener('click', () => {
+      continueBtn.textContent = continueBtn.textContent === 'Enabled' ? 'Disabled' : 'Enabled';
+    });
+
+    historyBtn.addEventListener('click', () => {
+      historyBtn.textContent = historyBtn.textContent === 'Enabled' ? 'Disabled' : 'Enabled';
+    });
+
+    notificationBtn.addEventListener('click', () => {
+      notificationBtn.textContent = notificationBtn.textContent === 'On' ? 'Off' : 'On';
+    });
+
+    privacyBtn.addEventListener('click', () => {
+      privacyBtn.textContent = privacyBtn.textContent === 'Private' ? 'Public' : 'Private';
+    });
+
+    qualityBtn.addEventListener('click', () => {
+
+      if(qualityBtn.textContent === '1080p'){
+        qualityBtn.textContent = '720p';
+      }
+      else if(qualityBtn.textContent === '720p'){
+        qualityBtn.textContent = '480p';
+      }
+      else{
+        qualityBtn.textContent = '1080p';
+      }
+
+    });
+
+    subtitleBtn.addEventListener('click', () => {
+      subtitleBtn.textContent = subtitleBtn.textContent === 'English' ? 'Off' : 'English';
+    });
+
+    languageBtn.addEventListener('click', () => {
+      languageBtn.textContent = languageBtn.textContent === 'Japanese' ? 'English' : 'Japanese';
+    });
+
+    document.querySelectorAll('.profile-dropdown a')[1].addEventListener('click', (e) => {
+
+      e.preventDefault();
+
+      profileDropdown.classList.remove('active');
+
+      watchlistPage.style.display = 'block';
+
+    });
+
+    const profileBox = document.querySelector('.profile-box');
+    const profileDropdown = document.getElementById('profileDropdown');
+
+    profileBox.addEventListener('click', () => {
+      profileDropdown.classList.toggle('active');
+    });
+
+    window.addEventListener('click', (e) => {
+
+      if(!profileBox.contains(e.target)){
+        profileDropdown.classList.remove('active');
+      }
+
+    });
+
+    const navLinks = document.querySelectorAll('.nav-links a');
+
+    navLinks.forEach(link => {
+
+      link.addEventListener('click', function(e){
+
+        e.preventDefault();
+
+        const targetId = this.getAttribute('href');
+        const targetSection = document.querySelector(targetId);
+
+        targetSection.scrollIntoView({
+          behavior:'smooth'
+        });
+
+      });
+
+    });
+
+  </script>
+
+</body>
+</html>
